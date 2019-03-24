@@ -21,7 +21,7 @@
             <div class="form-group">
               <select class="combobox form-control" name="inline" id="add_categoria_producto">
                   <?php foreach($categorias as $row){?>
-                  <option value="<?php echo $row['categoria'] ?>"><?php echo $row['categoria'] ?></option>
+                  <option value="<?php echo $row['id'] ?>"><?php echo $row['categoria'] ?></option>
                   <?php } ?>
               </select>
             </div>

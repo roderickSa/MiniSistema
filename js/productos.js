@@ -30,16 +30,16 @@ function registrarProducto(evt){
 
     var nombre=$("#add_nombre_producto").val();
     var precio=$("#add_precio_producto").val();
-    var categoria=$("#add_categoria_producto").val();
+    var id_categoria=$("#add_categoria_producto").val();
     var stock=$("#add_stock_producto").val();   
 
-    validarNumeros(precio,stock);
+    validarNumeros(precio,stock);console.log(nombre+precio+id_categoria+stock);
 
     $.ajax({
         url: '../ajax/productos.php?op=insertarProducto',
         type: 'POST',
         dataType: 'html',
-        data: {nombre:nombre,categoria:categoria,precio:precio,stock:stock},
+        data: {nombre:nombre,id_categoria:id_categoria,precio:precio,stock:stock},
         error:function(){
             console.log("Error");
         },
@@ -91,7 +91,7 @@ function actualizarProducto(evt){
     var id= $("#edit_id_producto").val();
     var nombre=$("#edit_nombre_producto").val(); 
     var precio=$("#edit_precio_producto").val();  
-    var categoria=$("#edit_categoria_producto").val();  
+    var id_categoria=$("#edit_categoria_producto").val();  
     var stock=$("#edit_stock_producto").val();
     
     validarNumeros(precio,stock);
@@ -104,7 +104,7 @@ function actualizarProducto(evt){
             id:id,
             nombre:nombre,
             precio:precio,
-            categoria:categoria,
+            id_categoria:id_categoria,
             stock:stock
             },
               error:function(){
@@ -224,7 +224,7 @@ function buscadorProductos(){
             error:function(){
              console.log("Error en la busqueda");
             },
-            success:function(data){console.log(data);
+            success:function(data){
 
                   $("#listaProductos").html(data);
                   crearPaginacionBuscador(valor);

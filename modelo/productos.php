@@ -6,7 +6,8 @@ class Producto extends Conexion{
 
 public function getAllProductos(){
 
-	$sql="select * from productos";
+	$sql="select p.*,cp.nombre as categoria
+          from productos p inner join categorias_productos cp where p.id_categoria=cp.id";
 
 	$sql=$this->getConnection()->prepare($sql);
     $sql->execute();
@@ -16,7 +17,9 @@ public function getAllProductos(){
 
 public function getProducto($id){
 
-	$sql="select * from productos where id=:id limit 1";
+	$sql="select p.*,cp.nombre as categoria
+          from productos p inner join categorias_productos cp on p.id_categoria=cp.id
+           where p.id=:id limit 1";
 	$sql=$this->getConnection()->prepare($sql);
 
 	$sql->bindValue(':id',$id);
@@ -30,17 +33,17 @@ public function getProducto($id){
 	
 }
 
-public function insertarProducto($nombre,$categoria,$precio,$stock){
+public function insertarProducto($nombre,$id_categoria,$precio,$stock){
 
-    $sql="insert into productos (nombre,precio,categoria,stock,fecha_registro)
-           values (:nombre,:precio,:categoria,:stock,:fecha_registro)";
+    $sql="insert into productos (nombre,precio,id_categoria,stock,fecha_registro)
+           values (:nombre,:precio,:id_categoria,:stock,:fecha_registro)";
 
     $hoy=new DateTime('now');
 
     $sql=$this->getConnection()->prepare($sql);
     $sql->bindValue(':nombre',$nombre);
     $sql->bindValue(':precio',$precio);
-    $sql->bindValue(':categoria',$categoria);
+    $sql->bindValue(':id_categoria',$id_categoria);
     $sql->bindValue(':stock',$stock);
     $sql->bindValue(':fecha_registro',$hoy->format('Y-m-d'));
 
@@ -51,16 +54,16 @@ public function insertarProducto($nombre,$categoria,$precio,$stock){
     }
 }
 
-public function actualizarProducto($id,$nombre,$precio,$categoria,$stock){
+public function actualizarProducto($id,$nombre,$precio,$id_categoria,$stock){
 
      $sql="update productos set 
-     nombre=:nombre,precio=:precio,categoria=:categoria,stock=:stock where id=:id";
+     nombre=:nombre,precio=:precio,id_categoria=:id_categoria,stock=:stock where id=:id";
 
      $sql=$this->getConnection()->prepare($sql);
      $sql->bindValue(':id',$id);
      $sql->bindValue(':nombre',$nombre);
      $sql->bindValue(':precio',$precio);
-     $sql->bindValue(':categoria',$categoria);
+     $sql->bindValue(':id_categoria',$id_categoria);
      $sql->bindValue(':stock',$stock);
 
      if($sql->execute()){
@@ -97,9 +100,10 @@ public function totalProductos(){
 
 public function paginacionProductos($nombre,$desde,$filasPagina){
 
-     $sql="select * from productos
-      where UPPER(nombre) like UPPER('%".$nombre."%') limit {$desde},{$filasPagina}";
-      //llama a los prodcutos en base a la busqueda y la cantidad pedida
+     $sql="select p.*,cp.nombre as categoria from productos p inner join categorias_productos cp
+            on p.id_categoria=cp.id
+           where UPPER(p.nombre) like UPPER('%".$nombre."%') limit {$desde},{$filasPagina}";
+      //llama a los prodcutos con su categoria en base a la busqueda y la cantidad pedida
 
      $sql=$this->getConnection()->prepare($sql);
 
@@ -110,8 +114,10 @@ public function paginacionProductos($nombre,$desde,$filasPagina){
 
 public function buscadorProductos($nombre){
 
-	$sql="select * from productos where UPPER(nombre) like UPPER('%".$nombre."%')"; 
-    //busca los productos en base a la busqueda
+	$sql="select p.*,cp.nombre as categoria from productos p inner join categorias_productos cp
+            on p.id_categoria=cp.id
+           where UPPER(p.nombre) like UPPER('%".$nombre."%')"; 
+    //busca los productos con su categoria en base a la busqueda
 
 	$sql=$this->getConnection()->prepare($sql);
 	//$sql->bindValue(':nombre',$nombre);
@@ -134,7 +140,7 @@ public function buscadorProductosConteo($nombre){
 
 public function listadoCategorias(){
 
-	$sql="select distinct categoria from productos ORDER BY categoria ASC";
+	$sql="select distinct id,nombre as categoria from categorias_productos ORDER BY nombre ASC";
 	$sql=$this->getConnection()->prepare($sql);
 	$sql->execute();
 
@@ -142,10 +148,9 @@ public function listadoCategorias(){
 }
 
 }
-
-/*$pro=new Producto();
-$p=$pro->listadoCategorias();
-foreach ($p as $row) {
-	echo $row['categoria'];
-}*/
+/*
+$pro=new Producto();
+$p=$pro->getProducto(32);
+var_dump($p);
+*/
 ?>

@@ -199,15 +199,15 @@ switch ($_GET['op']) {
 
 	case 'insertarProducto':
 
-	if(isset($_POST['nombre']) and isset($_POST['categoria']) and
+	if(isset($_POST['nombre']) and isset($_POST['id_categoria']) and
 	   isset($_POST['precio']) and isset($_POST['stock'])){
      
      $nombre=$_POST['nombre'];
-	 $categoria=$_POST['categoria'];
+	 $id_categoria=$_POST['id_categoria'];
 	 $precio=$_POST['precio'];
 	 $stock=$_POST['stock'];
 
-     $resultado=$producto->insertarProducto($nombre,$categoria,$precio,$stock);
+     $resultado=$producto->insertarProducto($nombre,$id_categoria,$precio,$stock);
 
 	}
 
@@ -246,16 +246,16 @@ switch ($_GET['op']) {
 
 	case 'actualizarProducto':
 
-	if(isset($_POST['id']) and isset($_POST['nombre']) and isset($_POST['categoria']) and
+	if(isset($_POST['id']) and isset($_POST['nombre']) and isset($_POST['id_categoria']) and
 	   isset($_POST['precio']) and isset($_POST['stock'])){
      
      $id=$_POST['id'];
      $nombre=$_POST['nombre'];
-	 $categoria=$_POST['categoria'];
-	 $precio=$_POST['precio'];
-	 $stock=$_POST['stock'];
+  	 $id_categoria=$_POST['id_categoria'];
+  	 $precio=$_POST['precio'];
+  	 $stock=$_POST['stock'];
 
-     $resultado=$producto->actualizarProducto($id,$nombre,$precio,$categoria,$stock);
+     $resultado=$producto->actualizarProducto($id,$nombre,$precio,$id_categoria,$stock);
 
 	}
 
