@@ -40,8 +40,8 @@ $categorias=$claseProducto->listadoCategorias();
 
 <?php
 
-require_once('modalProductos/addProducto.php');
-require_once('modalProductos/editProducto.html');
+require_once('modales/modalProductos/addProducto.php');
+require_once('modales/modalProductos/editProducto.html');
 require_once('componentes/footer.html');
 
 }else{

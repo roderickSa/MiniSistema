@@ -27,8 +27,8 @@ class Cliente extends Conexion{
 
 		$hoy=new DateTime("now");
 
-		$sql="insert into clientes(nombres,apellidos,dni,correo,telefono,fecha_registro) 
-		      values(:nombres,:apellidos,:dni,:correo,:telefono,:fecha_registro)";
+		$sql="insert into clientes(nombres,apellidos,dni,correo,telefono,fecha_registro,estado) 
+		      values(:nombres,:apellidos,:dni,:correo,:telefono,:fecha_registro,'ACTIVO')";
 		$sql=$this->getConnection()->prepare($sql);
 		
 		$sql->bindValue(":nombres",$nombres);
@@ -68,22 +68,35 @@ class Cliente extends Conexion{
 		}
 	}
 
-	public function eliminarCliente($id){
+	public function cambiarEstadoCliente($id,$estado){
 
-		$sql="delete from clientes where id=:id";
+		$sql="update clientes set estado=:estado where id=:id";
 		$sql=$this->getConnection()->prepare($sql);
 		$sql->bindValue(":id",$id);
+		$sql->bindValue(":estado",$estado);
 		$resul=$sql->execute();
 
 		if($resul>0){
-            return "Eliminado correctamente";
+            return "Estado cambiado correctamente";
 		}else{
 			return "Error";
 		}
 	}
+
+	public function estadoCliente($id){
+ 
+       $data="";
+
+		$sql="select estado from clientes where id=:id";
+		$sql=$this->getConnection()->prepare($sql);
+		$sql->bindValue(":id",$id);
+		$sql->execute();
+
+		return $sql->fetchAll();
+	}
 }
 /*
 $cli=new Cliente();
-var_dump($cli->eliminarCliente(3));
+var_dump($cli->estadoCliente(2));
 */
 ?>

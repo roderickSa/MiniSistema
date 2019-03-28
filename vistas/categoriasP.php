@@ -10,7 +10,7 @@ $claseCategoriaP=new CategoriaP();
 
 	<div class="container mt-4 jumbotron">
 
-    <button type="button" class="btn btn-primary mb-4" id="addProducto" 
+    <button type="button" class="btn btn-primary mb-4" id="addCategoriaP" 
     data-toggle="modal" data-target="#addCategoriaPModal">Agregar Categoria</button>
 
 	<table class="table table-bordered table-hover">
@@ -28,8 +28,8 @@ $claseCategoriaP=new CategoriaP();
 
 <?php
 
-require_once('modalCategoriasP/addCategoriaP.php');
-require_once('modalCategoriasP/editCategoriaP.html');
+require_once('modales/modalCategoriasP/addCategoriaP.php');
+require_once('modales/modalCategoriasP/editCategoriaP.html');
 require_once('componentes/footer.html');
 
 }else{
