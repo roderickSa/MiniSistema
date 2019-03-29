@@ -203,9 +203,9 @@ switch ($_GET['op']) {
 	   isset($_POST['precio']) and isset($_POST['stock'])){
      
      $nombre=$_POST['nombre'];
-	 $id_categoria=$_POST['id_categoria'];
-	 $precio=$_POST['precio'];
-	 $stock=$_POST['stock'];
+	   $id_categoria=$_POST['id_categoria'];
+	   $precio=$_POST['precio'];
+	   $stock=$_POST['stock'];
 
      $resultado=$producto->insertarProducto($nombre,$id_categoria,$precio,$stock);
 
