@@ -41,11 +41,13 @@ require_once 'componentes/navbar.html';
 
 	<div class="container p-3 mt-4 mb-4 bg-info text-white" id="formulario_generar_pedidos">
 		<form action="" method="post" accept-charset="utf-8">
+
 			  <div class="form-group row">
 			  	  <label for="id_pedido" class="col-form-label col-2">ID del Pedido</label>
 			  	  <input class="form-control col-1" type="text" name="id_pedido" id="id_pedido" disabled>
 			  </div>
-			  <div class="form-group">
+
+			  <!--<div class="form-group">
 
 			  	  <input type="hidden" name="idProducto" id="idProducto" disabled>
 
@@ -72,7 +74,7 @@ require_once 'componentes/navbar.html';
 			  	  <input class="form-control col-2" type="number" name="totalPedido"
 			  	   id="totalPedido" autocomplete="off" disabled>
 
-			  </div>
+			  </div>-->
 
 			  <div id="nuevoProducto"></div>
 

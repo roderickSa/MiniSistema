@@ -97,7 +97,10 @@ function buscarPedido(cliente_id){
               $("#nombreCliente").attr('disabled','disabled');
               $("#buttonCargarPedido").attr('disabled','disabled');
               $("#id_pedido").val(pedido.id);
+
               $("#formulario_generar_pedidos").show();
+
+              agregarProducto();
         	}
         });
 }
@@ -105,12 +108,15 @@ function buscarPedido(cliente_id){
 //funcion que busca los productos por filtrado
 function buscarProducto(){   
 
-   $("#nombreProducto").keyup(function(event) {
+   //jQuery: asociar eventos a elementos HTML creados dinámicamente 
+   //(id ya establecido antes de carga del jquery)
 
-   	$("#totalPedido").val('');  //por cada busqueda reseteamos el total
-   	$("#cantidadPedido").val('');  //por cada busqueda reseteamos el total
+   $("#nuevoProducto").on('keyup','.nomPro',function(event) {
+
+   	$(".totPro").val('');  //por cada busqueda reseteamos el total
+   	$(".cantPro").val('');  //por cada busqueda reseteamos el total
    	
-   	var producto=$("#nombreProducto").val();
+   	var producto=$(".nomPro").val();
 
   	$.ajax({
   		url: '../ajax/pedidos.php?op=buscarProducto',
@@ -121,10 +127,10 @@ function buscarProducto(){
         console.log("Error");
   		},
   		success:function(data){
-         $("#comboProductos").show();
-         $("#comboProductos").html('');   
-         $("#comboProductos").css('color', 'black');
-         $("#comboProductos").append(data);
+         $(".cmbPro").show();
+         $(".cmbPro").html('');   
+         $(".cmbPro").css('color', 'black');
+         $(".cmbPro").append(data);
   		}
   	});
   	
@@ -134,22 +140,22 @@ function buscarProducto(){
 //permite seleccionar el item elejido y lo rellena en los campos
 function elijeItemProducto(id,nombre,categoria,precio){
 
-    $("#idProducto").val(id);
-    $("#nombreProducto").val(nombre);    
-    $("#categoriaProducto").val(categoria);
+    $(".idPro").val(id);
+    $(".nomPro").val(nombre);    
+    $(".ctgPro").val(categoria);
 
     localStorage.setItem("precio", precio);
 
-    $("#comboProductos").hide();
+    $(".cmbPro").hide();
 
 }
 
 //funcion q se activa al soltar la tecla -> (esto calcula el total a pagar)
 function llenadoCantidadProducto(){
 
-   $("#cantidadPedido").keyup(function() {
+   $("#nuevoProducto").on('keyup','.cantPro',function(event) {
 
-   	   var cantidad=parseInt($("#cantidadPedido").val()); 
+   	   var cantidad=parseInt($(".cantPro").val()); 
 
    	   if(cantidad>0){
 
@@ -157,7 +163,7 @@ function llenadoCantidadProducto(){
 
 	   	   var total=parseFloat(precio*cantidad);
 
-	   	   $("#totalPedido").val(total);
+	   	   $(".totPro").val(total);
 
    	   }else{
    	   	  //alert("cantidad no permitida");
@@ -167,9 +173,7 @@ function llenadoCantidadProducto(){
 }
 
 //nueva opcion para agregar un nuevo producto en el mismo pedido
-function agregarProducto(evt){
-
-   evt.preventDefault();
+function agregarProducto(){
 
    $.ajax({
    	url: '../ajax/pedidos.php?op=nuevoProducto',
@@ -181,19 +185,30 @@ function agregarProducto(evt){
    	},
    	success:function(data){
 
-   	   localStorage.setItem("nuevoProducto", data);
        $("#nuevoProducto").append(data);
 
-       $("#quitarUltimoPedido").show();
+       if(retornaPosicionUltimoDiv()>0){
+           $("#quitarUltimoPedido").show();
+       }       
    	}
    });
 }
 
+//quita el ultimo producto
 function quitarProducto(evt){
 
-    evt.preventDefault();
-    $("#nuevoProducto").remove(localStorage.getItem("nuevoProducto"));
+	var contenedor=document.getElementById("nuevoProducto");
 
+	var divs=document.getElementsByClassName("identificadorColumna");
+
+    var pos=retornaPosicionUltimoDiv();
+
+    if(pos===1){
+       $("#quitarUltimoPedido").hide();
+       contenedor.removeChild(divs.item(pos));
+    }else if(pos>0){       
+       contenedor.removeChild(divs.item(pos));
+    }
 }
 
 //inhabilita los campos para proceder a generar el pedido_detalle
@@ -204,8 +219,23 @@ function aplicarPedidoDetalle(evt){
       var conf=confirm("Desea guardar los productos seleccionados?");
 
       if(conf){
-           $("#nombreProducto").attr('disabled', 'disabled');
-           $("#cantidadPedido").attr('disabled', 'disabled');           
+          // $("#nombreProducto").attr('disabled', 'disabled');
+          //$("#cantidadPedido").attr('disabled', 'disabled');  
+
+          var idPros=$("#nuevoProducto .idPro");
+          var nomPros=$("#nuevoProducto .nomPro");
+          var cmbPros=$("#nuevoProducto .cmbPro");
+          var ctgPros=$("#nuevoProducto .ctgPro");
+          var cantPros=$("#nuevoProducto .cantPro");
+          var totPros=$("#nuevoProducto .totPro");
+
+          
+          console.log(idPros.removeClass('idPro'));
+          console.log(nomPros.removeClass('nomPro'));
+          console.log(cmbPros.removeClass('cmbPro'));
+          console.log(ctgPros.removeClass('ctgPro'));
+          console.log(cantPros.removeClass('cantPro'));
+          console.log(totPros.removeClass('totPro'));
       }
 
 }
@@ -215,6 +245,7 @@ function registroPedidoDetalle(evt){
 	evt.preventDefault();
 
 	var id_pedido=$("#id_pedido").val();
+
 	var id_producto=$("#idProducto").val();
 	var cantidad=$("#cantidadPedido").val();
 	var total=$("#totalPedido").val();
@@ -240,6 +271,18 @@ function registroPedidoDetalle(evt){
         	  window.location="home.php";
         	}
         });
+}
+
+ //funcion q retorna la posicion del ultimo div "identificadorColumna"
+function retornaPosicionUltimoDiv(){
+   
+   var divs=document.getElementsByClassName("identificadorColumna");
+
+   //obtenemos la posicion ultima del div para eliminarlo
+    var posicionDiv=(Object.keys(divs).length)-1;  
+    
+    return posicionDiv;
+
 }
 
 
