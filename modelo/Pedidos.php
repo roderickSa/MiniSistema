@@ -6,7 +6,8 @@ class Pedido extends Conexion{
 
 public function buscaNombre($nombres){
 
-    $sql='select id,nombres,apellidos,dni,correo from clientes where nombres like "'.$nombres.'%" ';
+    $sql='select id,nombres,apellidos,dni,correo from clientes 
+          where nombres like "'.$nombres.'%" and estado="ACTIVO"';
     $sql=$this->getConnection()->prepare($sql);
     $sql->execute();
 

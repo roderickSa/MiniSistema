@@ -1,0 +1,37 @@
+<!-- Modal para ver detalle pedidos-->
+<div class="modal fade" id="detallePedidoModal" tabindex="-1" role="dialog"
+ aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Detalle Pedido</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">        
+
+        <table class="table table-bordered table-hover">
+          <thead class="text-center">
+            <tr>
+              <th class="col-2">N° DETALLE</th>
+              <th>PRODUCTO</th>
+              <th class="col-4">PRECIO</th>
+              <th>CANT.</th>
+              <th class="col-4">SUB TOTAL</th>
+            </tr>
+          </thead>
+          <tbody id="contenedorPedidoDetalle">
+          </tbody>
+
+          <div id="totalPedidoDetalle"></div>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

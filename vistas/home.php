@@ -2,10 +2,13 @@
 
 require_once '../config/conexion.php';
 
+$inactividad=1200;
+
+$vidaSesion=time()-$_SESSION['tiempo'];
+
 if(isset($_SESSION['usuario'])){
 
-
-require_once('componentes/navbar.html');
+		require_once('componentes/navbar.html');
 
 ?>
 

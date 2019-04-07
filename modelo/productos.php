@@ -7,7 +7,8 @@ class Producto extends Conexion{
 public function getAllProductos(){
 
 	$sql="select p.*,cp.nombre as categoria
-          from productos p inner join categorias_productos cp where p.id_categoria=cp.id";
+          from productos p inner join categorias_productos cp where p.id_categoria=cp.id
+          ";
 
 	$sql=$this->getConnection()->prepare($sql);
     $sql->execute();
@@ -102,7 +103,8 @@ public function paginacionProductos($nombre,$desde,$filasPagina){
 
      $sql="select p.*,cp.nombre as categoria from productos p inner join categorias_productos cp
             on p.id_categoria=cp.id
-           where UPPER(p.nombre) like UPPER('%".$nombre."%') limit {$desde},{$filasPagina}";
+           where UPPER(p.nombre) like UPPER('%".$nombre."%') limit {$desde},{$filasPagina}
+           ";
       //llama a los prodcutos con su categoria en base a la busqueda y la cantidad pedida
 
      $sql=$this->getConnection()->prepare($sql);
@@ -116,7 +118,7 @@ public function buscadorProductos($nombre){
 
 	$sql="select p.*,cp.nombre as categoria from productos p inner join categorias_productos cp
             on p.id_categoria=cp.id
-           where UPPER(p.nombre) like UPPER('%".$nombre."%')"; 
+           where UPPER(p.nombre) like UPPER('%".$nombre."%') "; 
     //busca los productos con su categoria en base a la busqueda
 
 	$sql=$this->getConnection()->prepare($sql);

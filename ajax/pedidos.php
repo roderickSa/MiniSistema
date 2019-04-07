@@ -107,8 +107,11 @@ switch ($_GET['op']){
 	       $id_pedido=$_POST['id_pedido'];
 	       $id_producto=$_POST['id_producto'];
 
-           $resultado=$pedido->registrarPedidoDetalle($cantidad,$total,$id_pedido,$id_producto); 
-            //registro pedido detalle          
+           for ($i=0; $i < count($id_producto) ; $i++) { 
+           	
+           	 $resultado=$pedido->registrarPedidoDetalle
+           	                     ($cantidad[$i],$total[$i],$id_pedido,$id_producto[$i]); 
+           }    
 
         }
 
@@ -121,14 +124,14 @@ switch ($_GET['op']){
                <div class="identificadorColumna">
 	               <div class="form-group">
 
-				  	  <input type="hidden" name="idProducto[]" id="idProducto" class="idPro" disabled>
+				  	  <input type="hidden" name="idProducto[]" class="idPro" disabled>
 
 				  	  <label for="producto">Producto</label>
 				  	  <input class="form-control col-4 nomPro" type="text" name="producto[]"
-				  	   id="nombreProducto" autocomplete="off" placeholder="Buscar producto...">
+				  	    autocomplete="off" placeholder="Buscar producto...">
 
 				  	   <div class="col-4">
-						   <ul class="list-group cmbPro" id="comboProductos"></ul>
+						   <ul class="list-group cmbPro"></ul>
 					   </div>	
 
 				  </div>
@@ -136,15 +139,15 @@ switch ($_GET['op']){
 
 				  	  <label for="categoria" class="col-form-label col-1">Categoria</label>
 				  	  <input class="form-control col-4 ctgPro" type="text" name="categoriaProducto[]"
-				  	   id="categoriaProducto" autocomplete="off" placeholder="Categoria" disabled>			  
+				  	    autocomplete="off" placeholder="Categoria" disabled>			  
 
 				  	  <label for="cantidad" class="col-form-label col-1">Cantidad</label>
 				  	  <input class="form-control col-2 cantPro" type="number" name="cantidadPedido[]"
-				  	   id="cantidadPedido" autocomplete="off" placeholder="Cantidad">
+				  	    autocomplete="off" placeholder="Cantidad">
 
 				  	  <label for="total" class="col-form-label col-1">Total</label>
 				  	  <input class="form-control col-2 totPro" type="number" name="totalPedido[]"
-				  	   id="totalPedido" autocomplete="off" disabled>
+				  	    autocomplete="off" disabled>
 
 				  </div>
 			  </div>

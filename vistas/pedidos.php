@@ -47,40 +47,11 @@ require_once 'componentes/navbar.html';
 			  	  <input class="form-control col-1" type="text" name="id_pedido" id="id_pedido" disabled>
 			  </div>
 
-			  <!--<div class="form-group">
-
-			  	  <input type="hidden" name="idProducto" id="idProducto" disabled>
-
-			  	  <label for="producto">Producto</label>
-			  	  <input class="form-control col-4" type="text" name="producto"
-			  	   id="nombreProducto" autocomplete="off" placeholder="Buscar producto...">
-
-			  	   <div class="col-4">
-					   <ul class="list-group" id="comboProductos"></ul>
-				   </div>	
-
-			  </div>
-			  <div class="form-group row">
-
-			  	  <label for="categoria" class="col-form-label col-1">Categoria</label>
-			  	  <input class="form-control col-4" type="text" name="categoriaProducto"
-			  	   id="categoriaProducto" autocomplete="off" placeholder="Categoria" disabled>			  
-
-			  	  <label for="cantidad" class="col-form-label col-1">Cantidad</label>
-			  	  <input class="form-control col-2" type="number" name="cantidadPedido"
-			  	   id="cantidadPedido" autocomplete="off" placeholder="Cantidad">
-
-			  	  <label for="total" class="col-form-label col-1">Total</label>
-			  	  <input class="form-control col-2" type="number" name="totalPedido"
-			  	   id="totalPedido" autocomplete="off" disabled>
-
-			  </div>-->
-
 			  <div id="nuevoProducto"></div>
 
 			  <div class="container">
 			  	  <div class="d-flex justify-content-around">
-				  	  <button class="btn btn-warning pull-left" type="button"
+				  	  <button class="btn btn-warning pull-left" type="button" id="agregarCampoPedido" 
 				  	   onclick="agregarProducto(event);">
 				  	  Añadir Producto</button>
 
@@ -92,7 +63,7 @@ require_once 'componentes/navbar.html';
 				  	  onclick="aplicarPedidoDetalle(event)
 				  	  ;">Aplicar Pedido</button>
 			  	  
-			  	  	  <button class="btn btn-success pull-right" type="button" 
+			  	  	  <button class="btn btn-success pull-right" type="button" id="generarPedido"  
 			  	  	  onclick="registroPedidoDetalle(event);">
 			  	  	  Generar Pedido</button>
 			  	  </div>			  	  

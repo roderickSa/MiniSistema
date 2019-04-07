@@ -6,7 +6,7 @@ class Cliente extends Conexion{
 
 	public function getAllClientes(){
 
-		$sql="select * from clientes";
+		$sql="select * from clientes order by nombres";
 		$sql=$this->getConnection()->prepare($sql);
 		$sql->execute();
 

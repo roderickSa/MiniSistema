@@ -1,6 +1,7 @@
 $("document").ready(function(){
 
 listarClientes();
+cerrarSesionForTime();
 });
 
 function listarClientes(){
@@ -181,4 +182,16 @@ function validacionTelefono(tel){
     }
 
     return salida;
+}
+
+//funcion q cada 10 min va ir a loguot.php
+function cerrarSesionForTime(){
+
+  setTimeout(function(){
+
+     window.location="logout.php";
+     //window.open('logout.php');
+
+  }, 600000);//10minutos
+
 }

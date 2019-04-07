@@ -22,6 +22,7 @@ public function login($usu,$pass){
 			$_SESSION['usuario']=$row['usuario'];
 			$_SESSION['tipo_usuario']=$row['tipo_usuario'];
 			$_SESSION['correo']=$row['correo'];
+			$_SESSION['tiempo']=time();
 		}		
 
 		header("Location:home.php");

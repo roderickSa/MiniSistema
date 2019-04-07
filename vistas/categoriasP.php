@@ -2,10 +2,12 @@
 require_once '../config/conexion.php';
 
 if(isset($_SESSION['correo'])){
-   
-require_once('componentes/navbar.html');
-require_once('../modelo/categoriasP.php');
-$claseCategoriaP=new CategoriaP();
+
+
+	require_once('componentes/navbar.html');
+	require_once('../modelo/categoriasP.php');
+	$claseCategoriaP=new CategoriaP();	
+
 ?>
 
 	<div class="container mt-4 jumbotron">

@@ -11,7 +11,6 @@ $("document").ready(function(){
 
 function buscarNombre(){
 
-  $("#nombreCliente").focus();
   $("#nombreCliente").keyup(function(event) {
   	
   	var nombres=$("#nombreCliente").val();
@@ -101,6 +100,9 @@ function buscarPedido(cliente_id){
               $("#formulario_generar_pedidos").show();
 
               agregarProducto();
+
+              $("#agregarCampoPedido").attr('disabled', 'disabled');
+              $("#generarPedido").attr('disabled', 'disabled');
         	}
         });
 }
@@ -175,6 +177,9 @@ function llenadoCantidadProducto(){
 //nueva opcion para agregar un nuevo producto en el mismo pedido
 function agregarProducto(){
 
+	$("#agregarCampoPedido").attr('disabled', 'disabled');
+	$("#generarPedido").attr('disabled', 'disabled');
+
    $.ajax({
    	url: '../ajax/pedidos.php?op=nuevoProducto',
    	type: 'GET',
@@ -205,6 +210,8 @@ function quitarProducto(evt){
 
     if(pos===1){
        $("#quitarUltimoPedido").hide();
+       $("#agregarCampoPedido").removeAttr('disabled');
+       $("#generarPedido").removeAttr('disabled');
        contenedor.removeChild(divs.item(pos));
     }else if(pos>0){       
        contenedor.removeChild(divs.item(pos));
@@ -213,29 +220,44 @@ function quitarProducto(evt){
 
 //inhabilita los campos para proceder a generar el pedido_detalle
 function aplicarPedidoDetalle(evt){
-    
+
       evt.preventDefault();
 
       var conf=confirm("Desea guardar los productos seleccionados?");
 
       if(conf){
-          // $("#nombreProducto").attr('disabled', 'disabled');
-          //$("#cantidadPedido").attr('disabled', 'disabled');  
 
-          var idPros=$("#nuevoProducto .idPro");
-          var nomPros=$("#nuevoProducto .nomPro");
-          var cmbPros=$("#nuevoProducto .cmbPro");
-          var ctgPros=$("#nuevoProducto .ctgPro");
-          var cantPros=$("#nuevoProducto .cantPro");
-          var totPros=$("#nuevoProducto .totPro");
+      	var ultimo=arrayCantidades().length-1;
 
+        //verificamos  q el ultimo input de cantidad no este vacio
+
+      		if( arrayCantidades()[ultimo]!=null && arrayCantidades()[ultimo]>0 ){
+                
+                $("#agregarCampoPedido").removeAttr('disabled');
+                $("#generarPedido").removeAttr('disabled');
+
+		          var idPros=$("#nuevoProducto .idPro");
+		          var nomPros=$("#nuevoProducto .nomPro");
+		          var cmbPros=$("#nuevoProducto .cmbPro");
+		          var ctgPros=$("#nuevoProducto .ctgPro");
+		          var cantPros=$("#nuevoProducto .cantPro");
+		          var totPros=$("#nuevoProducto .totPro");
+
+		          nomPros.attr('disabled', 'disabled');
+		          cantPros.attr('disabled', 'disabled');
+		          
+		          idPros.removeClass('idPro');
+		          nomPros.removeClass('nomPro');
+		          cmbPros.removeClass('cmbPro');
+		          ctgPros.removeClass('ctgPro');
+		          cantPros.removeClass('cantPro');
+		          totPros.removeClass('totPro');
+
+      		}else {
+      			alert("Error con las cantidades");
+      		}
           
-          console.log(idPros.removeClass('idPro'));
-          console.log(nomPros.removeClass('nomPro'));
-          console.log(cmbPros.removeClass('cmbPro'));
-          console.log(ctgPros.removeClass('ctgPro'));
-          console.log(cantPros.removeClass('cantPro'));
-          console.log(totPros.removeClass('totPro'));
+          
       }
 
 }
@@ -246,9 +268,28 @@ function registroPedidoDetalle(evt){
 
 	var id_pedido=$("#id_pedido").val();
 
-	var id_producto=$("#idProducto").val();
-	var cantidad=$("#cantidadPedido").val();
-	var total=$("#totalPedido").val();
+	var InnomPro=$("input[name='producto[]']");
+	var InidPro=$("input[name='idProducto[]']");
+	var IncantPed=$("input[name='cantidadPedido[]']");
+	var IntotPed=$("input[name='totalPedido[]']");
+
+	var arrayNomPro=new Array();
+	var arrayIdPro=new Array();
+	var arrayCantPed=new Array();
+	var arrayTotPed=new Array();
+
+    InnomPro.each(function() {
+    	arrayNomPro.push($(this).val());
+    });
+    InidPro.each(function() {
+    	arrayIdPro.push($(this).val());
+    });
+    IncantPed.each(function() {
+    	arrayCantPed.push($(this).val());
+    });
+    IntotPed.each(function() {
+    	arrayTotPed.push($(this).val());
+    });
 
 	$.ajax({
 
@@ -256,10 +297,10 @@ function registroPedidoDetalle(evt){
         	type: 'POST',
         	dataType: 'html',
         	data: {
-        		cantidad:cantidad,
-        		total:total,
+        		cantidad:arrayCantPed,
+        		total:arrayTotPed,
         		id_pedido:id_pedido,
-        		id_producto:id_producto
+        		id_producto:arrayIdPro
         	},
         	error:function(){
         		console.log("Error");
@@ -283,6 +324,20 @@ function retornaPosicionUltimoDiv(){
     
     return posicionDiv;
 
+}
+
+//retorna un arreglo de cantidades
+function arrayCantidades(){
+
+	var ints=$("input[name='cantidadPedido[]']");
+
+	var array=new Array();
+
+	ints.each(function() {
+		array.push($(this).val());
+	});
+
+	return array;
 }
 
 
